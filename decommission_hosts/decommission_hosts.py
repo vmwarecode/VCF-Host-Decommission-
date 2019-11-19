@@ -1,17 +1,17 @@
-#Decomission hosts.
-#Decomissions hosts gives as parametres.
+#Decommission hosts.
+#Decommissions hosts gives as parametres.
 import requests
 import json
 import sys
 import time
 
 def get_help():
-    help_description = '''\n\t\t----Decomission hosts----
+    help_description = '''\n\t\t----Decommission hosts----
     Usage:
-    python decomission_hosts.py <hostname> <username> <password> <fqdn1> <fqdn2> ..\n Refer to documentation for more detais\n'''
+    python decommission_hosts.py <hostname> <username> <password> <fqdn1> <fqdn2> ..\n Refer to documentation for more detais\n'''
     print help_description
 
-def decomission_hosts():
+def decommission_hosts():
     arguments = sys.argv
     if(len(arguments) < 4):
         get_help()
@@ -30,15 +30,15 @@ def decomission_hosts():
         task_id = data['id']
         status = data['status']
         url = hostname+'/v1/tasks/'+task_id
-        print 'Decomissioning hosts...'
+        print 'Decommissioning hosts...'
         while(status == 'In Progress'):
             status = json.loads(requests.get(url, headers=headers,auth=(username, password)).text)['status']
             time.sleep(5)
-        print 'Decomissioning of hosts is '+status
+        print 'Decommissioning of hosts is '+status
     else:
-        print "Error decomissioning hosts."
+        print "Error decommissioning hosts."
         response = json.loads(response.text)
         print json.dumps(response,indent=4, sort_keys=True)
         exit(1)
-decomission_hosts()
+decommission_hosts()
 
